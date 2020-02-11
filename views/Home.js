@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, StyleSheet, Text, Image, View, FlatList } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, StyleSheet, Text, Image, View, FlatList } from 'react-native';
 import useFetcher from '../useFetcher'
 import Constants from 'expo-constants'
 import SearchBar from './components/SearchBar'
@@ -9,7 +9,7 @@ export default function HomePage({ navigation }) {
   const [result, setResult] = useState([])
   const [list, setList] = useState([])
 
-  if (error) return <Text>Error</Text>
+ 
   
   const searchChar = (keyword) => {
     const searchResult = characters.filter( character => {
@@ -19,14 +19,20 @@ export default function HomePage({ navigation }) {
   }
 
   useEffect(() => {
+   
     if (result.length > 0) {
       setList(result)
     } else {
       setList(characters)
     }
-  }, [result])
+  }, [result, characters])
 
-
+  if (error) return <Text>Error</Text>
+  if (loading) return (
+    <View style={[styles.container, styles.horizontal]}>
+    <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  )
   return (
     <View style={styles.container}>
     <Text style={styles.header}>The Rick and Morty Encyclopedia</Text>
@@ -44,7 +50,6 @@ export default function HomePage({ navigation }) {
           <View style={styles.textMargin}>
           <Text style={{color: 'white'}}> {item.name}</Text>   
           <Text style={{color: '#FF9900'}}>Origin: {item.origin.name}</Text> 
-          <Text style={{color: '#FF9900'}}>Species: {item.species}</Text> 
           </View>
         </View>
       </TouchableOpacity>
@@ -59,7 +64,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#202329'
+    backgroundColor: '#202329',
+    padding: 15
   },
   welcome: {
     fontSize: 20,
@@ -78,8 +84,9 @@ const styles = StyleSheet.create({
   },
   header: {
     margin: Constants.statusBarHeight,
-    color: 'grey',
-    fontWeight: 'bold'
+    color: 'rgb(255, 152, 0)',
+    fontWeight: 'bold',
+    fontSize: 20
   },
   card: {
     flexDirection: 'row',
@@ -95,8 +102,9 @@ const styles = StyleSheet.create({
   textMargin: {
     marginLeft: 4
   },
-  container: { 
-    padding: 15,
-    alignItems: 'center'
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
   }
 });

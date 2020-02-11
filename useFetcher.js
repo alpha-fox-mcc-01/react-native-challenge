@@ -6,8 +6,10 @@ export function useFetcher(endpoint) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   useEffect(() => {
+    setLoading(true)
     instance.get(endpoint)
             .then(({ data }) => {
+              setLoading(false)
               setCharacters(data.results)
             })
             .catch(err => {
