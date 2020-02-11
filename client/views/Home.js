@@ -7,7 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  Image
+  ImageBackground,
+  Image,
+  Keyboard
 } from "react-native";
 import Constants from "expo-constants";
 import * as Font from "expo-font";
@@ -30,14 +32,18 @@ export default function Home({ navigation }) {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.title}>WeatherWorks</Text>
+        <Text style={styles.title}>
+          {/* W E A T H E R &nbsp;S T A S T I S T I C S */}
+          Weather Statistics
+        </Text>
       </View>
       <Text
         style={{
-          color: "lightgrey",
+          color: "grey",
           alignSelf: "center",
           marginTop: 10,
-          marginBottom: 5
+          marginBottom: 5,
+          fontFamily: "VarelaRound-Regular"
         }}
       >
         Find your city...
@@ -46,35 +52,191 @@ export default function Home({ navigation }) {
         <TextInput
           style={{
             width: "70%",
-            height: 37,
+            height: 30,
             borderColor: "gray",
-            borderWidth: 1
+            borderWidth: 1,
+            borderRadius: 10
           }}
           onChangeText={text => setInputCity(text)}
           value={inputCity}
         />
-        <Button
-          title="Enter"
-          onPress={handleSearchSubmit}
-          // style={{ width: "30%", marginLeft: 10, backgroundColor: "lightgrey" }}
+        <TouchableOpacity
+          onPress={() => {
+            Keyboard.dismiss();
+            handleSearchSubmit();
+          }}
+          style={{
+            width: "25%",
+            // backgroundColor: "lightgrey",
+            borderColor: "black",
+            borderWidth: 1,
+            borderRadius: 10,
+            marginLeft: 5,
+            height: 31
+            // width: 330
+          }}
         >
-          {/* <Text style={{ fontSize: 20, color: "black" }}>Enter</Text> */}
-        </Button>
+          <Text
+            style={{
+              marginTop: 3,
+              fontSize: 15,
+              color: "black",
+              textAlign: "center",
+              fontFamily: "VarelaRound-Regular"
+            }}
+          >
+            Enter
+          </Text>
+        </TouchableOpacity>
       </View>
       {weatherData.hasOwnProperty("request") && (
         <View style={styles.weatherDetailContainer}>
           <View style={styles.mainInfo}>
             <Image
-              style={{ width: 50, height: 50 }}
+              style={{ width: 40, height: 40, marginBottom: 10 }}
               source={{ uri: weatherData.current.weather_icons[0] }}
             />
             <Text style={styles.weatherTemperature}>
               {weatherData.current.temperature}&#8451;
             </Text>
-            <Text style={styles.weatherPlace}>{weatherData.request.query}</Text>
+            <Text style={styles.weatherPlace}>
+              {weatherData.request.query} -{" "}
+              {weatherData.current.observation_time}
+            </Text>
             <Text style={styles.weatherDescription}>
               {weatherData.current.weather_descriptions[0]}
             </Text>
+          </View>
+          <View style={styles.dayNames}>
+            <Text
+              style={{ color: "lightgrey", fontFamily: "VarelaRound-Regular" }}
+            >
+              Sunrise
+            </Text>
+            <Text
+              style={{ color: "lightgrey", fontFamily: "VarelaRound-Regular" }}
+            >
+              Sunset
+            </Text>
+            <Text
+              style={{ color: "lightgrey", fontFamily: "VarelaRound-Regular" }}
+            >
+              Moonrise
+            </Text>
+          </View>
+          <View style={styles.cardsContainer}>
+            <Image
+              source={{ uri: "https://wallpaperaccess.com/full/1092716.png" }}
+              style={{
+                width: 102,
+                height: 160,
+                borderRadius: 20,
+                position: "absolute",
+                zIndex: -1
+                // borderWidth: 1
+              }}
+            />
+            <View style={{ ...styles.timeCard }}>
+              <Text
+                style={{
+                  color: "lightgrey",
+                  fontFamily: "VarelaRound-Regular"
+                }}
+              >
+                {
+                  weatherData.forecast[Object.keys(weatherData.forecast)[0]]
+                    .astro.sunrise
+                }
+              </Text>
+              <Image
+                style={{ width: 64, height: 64 }}
+                source={require("../assets/sunrise-icon.png")}
+              />
+              <Text style={styles.timeframeTemperatures}>
+                {
+                  weatherData.forecast[Object.keys(weatherData.forecast)[0]]
+                    .avgtemp
+                }
+                &#8451;
+              </Text>
+            </View>
+            <Image
+              source={require("../assets/purple-gradient.jpg")}
+              style={{
+                width: 102,
+                height: 160,
+                borderRadius: 20,
+                position: "absolute",
+                zIndex: -1,
+                left: 120
+                // borderWidth: 1
+              }}
+            />
+            <View style={{ ...styles.timeCard }}>
+              <Text
+                style={{
+                  color: "lightgrey",
+                  fontFamily: "VarelaRound-Regular"
+                }}
+              >
+                {
+                  weatherData.forecast[Object.keys(weatherData.forecast)[0]]
+                    .astro.sunset
+                }
+              </Text>
+              <Image
+                style={{ width: 64, height: 64 }}
+                source={require("../assets/sunset-icon.png")}
+              />
+              <Text style={styles.timeframeTemperatures}>
+                {
+                  weatherData.forecast[Object.keys(weatherData.forecast)[0]]
+                    .maxtemp
+                }
+                &#8451;
+              </Text>
+            </View>
+
+            <Image
+              source={{
+                uri:
+                  "https://themeccagym.com/wp-content/uploads/2019/09/black-gradient-background.png"
+              }}
+              style={{
+                width: 102,
+                height: 160,
+                borderRadius: 20,
+                position: "absolute",
+                zIndex: -1,
+                left: 240
+                // borderWidth: 1
+              }}
+            />
+            <View style={{ ...styles.timeCard }}>
+              <Text
+                style={{
+                  color: "lightgrey",
+                  fontFamily: "VarelaRound-Regular"
+                }}
+              >
+                {
+                  weatherData.forecast[Object.keys(weatherData.forecast)[0]]
+                    .astro.moonrise
+                }
+              </Text>
+              <Image
+                style={{ width: 64, height: 64 }}
+                source={require("../assets/moonrise-icon.png")}
+              />
+              <Text style={styles.timeframeTemperatures}>
+                {
+                  weatherData.forecast[Object.keys(weatherData.forecast)[0]]
+                    .mintemp
+                }
+                &#8451;
+              </Text>
+            </View>
+            {/* </ImageBackground> */}
           </View>
 
           <View style={styles.additionalInfo}>
@@ -108,16 +270,30 @@ export default function Home({ navigation }) {
               </View>
             </View>
           </View>
-          <Button
-            title="View History and Forecasts..."
+          <TouchableOpacity
             onPress={() => navigation.push("Details", { weatherData })}
-          />
-          {/* <TouchableOpacity
-                onPress={handleSearchSubmit}
-                style={{ width: "30%", marginLeft: 10 }}
-              >
-                <Text style={{ fontSize: 20, color: "black" }}>Enter</Text>
-          </TouchableOpacity> */}
+            style={{
+              width: "100%",
+              // backgroundColor: "lightgrey",
+              padding: 3,
+              borderRadius: 10,
+              borderColor: "black",
+              borderWidth: 1,
+              marginTop: 10
+              // width: 330
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: "black",
+                textAlign: "center",
+                fontFamily: "VarelaRound-Regular"
+              }}
+            >
+              V I E W &nbsp;F O R E C A S T
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </>
@@ -126,7 +302,7 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
   header: {
-    // marginTop: Constants.statusBarHeight,
+    marginTop: 10,
     color: "red",
     alignItems: "center"
   },
@@ -148,15 +324,17 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "VarelaRound-Regular",
-    fontSize: 20
+    fontSize: 17,
+    color: "purple"
   },
   mainInfo: {
     alignItems: "center",
-    marginTop: 30
+    marginTop: 8,
+    marginBottom: 8
   },
   weatherTemperature: {
     fontFamily: "VarelaRound-Regular",
-    fontSize: 60
+    fontSize: 50
   },
   weatherPlace: {
     fontFamily: "VarelaRound-Regular",
@@ -165,9 +343,10 @@ const styles = StyleSheet.create({
   weatherDescription: {
     fontSize: 20,
     fontFamily: "VarelaRound-Regular"
+    // width: "50%"
   },
   additionalInfo: {
-    marginTop: 60
+    marginTop: 70
   },
   additionalInfoHeader: {
     fontFamily: "VarelaRound-Regular",
@@ -177,7 +356,7 @@ const styles = StyleSheet.create({
   },
   additionalInfoContent: {
     flexDirection: "row",
-    marginBottom: 20
+    marginBottom: 14
   },
   additionalInfoText: {
     width: "50%",
@@ -192,5 +371,31 @@ const styles = StyleSheet.create({
   additionalInfoName: {
     width: "50%",
     fontFamily: "VarelaRound-Regular"
+  },
+  cardsContainer: {
+    alignSelf: "center",
+    flexDirection: "row",
+    // alignItems: "center",
+    justifyContent: "space-between",
+    width: 350,
+    height: 120
+  },
+  dayNames: {
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 10,
+    width: 215,
+    justifyContent: "space-around",
+    alignSelf: "center"
+  },
+  timeCard: {
+    width: 102,
+    height: 160,
+    borderRadius: 20,
+    padding: 15
+  },
+  timeframeTemperatures: {
+    color: "grey",
+    fontFamily: "ValeraRound-Regular"
   }
 });

@@ -8,7 +8,7 @@ export default function useFetcher() {
     axios({
       method: "GET",
       url:
-        "http://api.weatherstack.com/current?access_key=f45cdcbdb526f2b62d669baa8e566f7b&query=" +
+        "http://api.weatherstack.com/forecast?access_key=f45cdcbdb526f2b62d669baa8e566f7b&query=" +
         keyword
     })
       .then(({ data }) => {
