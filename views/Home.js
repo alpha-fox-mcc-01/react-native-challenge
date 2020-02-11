@@ -12,12 +12,15 @@ export default function HomePage({ navigation }) {
     <View style={styles.container}>
     <Text style={styles.header}>The Rick and Morty Encyclopedia</Text>
     <FlatList data={characters} renderItem={({item}) => (
-      <TouchableOpacity onPress={ () => navigation.navigate('Details')}>
+      <TouchableOpacity onPress={ () => navigation.navigate('Details', 
+        item
+      )}>
         <View style={styles.card}>
           <View>
           <Image style={styles.image} source={{ uri: item.image}} resizeMode="cover" />
           </View>
           <View style={styles.textMargin}>
+          <Text style={{color: 'white'}}> {item.name}</Text>   
           <Text style={{color: '#FF9900'}}>Origin: {item.origin.name}</Text> 
           <Text style={{color: '#FF9900'}}>Species: {item.species}</Text> 
           </View>

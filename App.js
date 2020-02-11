@@ -5,13 +5,13 @@ import HomePage from './views/Home'
 import DetailsPage from './views/Details'
 
 export default function App() {
-  const Stack = createStackNavigator()
+  const Stack =createStackNavigator()
 
   return (
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomePage} />
-          <Stack.Screen name="Details" component={DetailsPage} />
+          <Stack.Screen name="Details" component={DetailsPage}  initialParams={{ id: 1 }} />
         </Stack.Navigator>
       </NavigationContainer>
   );
