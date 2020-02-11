@@ -18,11 +18,19 @@ import useFetcher from "../hooks/useFetcher";
 export default function Home({ navigation }) {
   const [inputCity, setInputCity] = useState("");
   const { weatherData, getCurrentWeather } = useFetcher();
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const [fontVarelaRound, setFontVarelaRound] = useState({
+    fontFamily: "sans-serif"
+  });
 
-  useEffect(() => {
-    Font.loadAsync({
+  async function loadFont() {
+    await Font.loadAsync({
       "VarelaRound-Regular": require("../assets/fonts/VarelaRound-Regular.ttf")
     });
+    setFontVarelaRound({ fontFamily: "VarelaRound-Regular" });
+  }
+  useEffect(() => {
+    loadFont();
   }, []);
 
   const handleSearchSubmit = _ => {
@@ -32,7 +40,7 @@ export default function Home({ navigation }) {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.title}>
+        <Text style={{ ...styles.title, ...fontVarelaRound }}>
           {/* W E A T H E R &nbsp;S T A S T I S T I C S */}
           Weather Statistics
         </Text>
@@ -43,7 +51,7 @@ export default function Home({ navigation }) {
           alignSelf: "center",
           marginTop: 10,
           marginBottom: 5,
-          fontFamily: "VarelaRound-Regular"
+          ...fontVarelaRound
         }}
       >
         Find your city...
@@ -55,7 +63,8 @@ export default function Home({ navigation }) {
             height: 30,
             borderColor: "gray",
             borderWidth: 1,
-            borderRadius: 10
+            borderRadius: 10,
+            ...fontVarelaRound
           }}
           onChangeText={text => setInputCity(text)}
           value={inputCity}
@@ -82,7 +91,7 @@ export default function Home({ navigation }) {
               fontSize: 15,
               color: "black",
               textAlign: "center",
-              fontFamily: "VarelaRound-Regular"
+              ...fontVarelaRound
             }}
           >
             Enter
@@ -96,30 +105,39 @@ export default function Home({ navigation }) {
               style={{ width: 40, height: 40, marginBottom: 10 }}
               source={{ uri: weatherData.current.weather_icons[0] }}
             />
-            <Text style={styles.weatherTemperature}>
+            <Text style={{ ...styles.weatherTemperature, ...fontVarelaRound }}>
               {weatherData.current.temperature}&#8451;
             </Text>
-            <Text style={styles.weatherPlace}>
+            <Text style={{ ...styles.weatherPlace, ...fontVarelaRound }}>
               {weatherData.request.query} -{" "}
               {weatherData.current.observation_time}
             </Text>
-            <Text style={styles.weatherDescription}>
+            <Text style={{ ...styles.weatherDescription, ...fontVarelaRound }}>
               {weatherData.current.weather_descriptions[0]}
             </Text>
           </View>
           <View style={styles.dayNames}>
             <Text
-              style={{ color: "lightgrey", fontFamily: "VarelaRound-Regular" }}
+              style={{
+                color: "lightgrey",
+                ...fontVarelaRound
+              }}
             >
               Sunrise
             </Text>
             <Text
-              style={{ color: "lightgrey", fontFamily: "VarelaRound-Regular" }}
+              style={{
+                color: "lightgrey",
+                ...fontVarelaRound
+              }}
             >
               Sunset
             </Text>
             <Text
-              style={{ color: "lightgrey", fontFamily: "VarelaRound-Regular" }}
+              style={{
+                color: "lightgrey",
+                ...fontVarelaRound
+              }}
             >
               Moonrise
             </Text>
@@ -140,7 +158,7 @@ export default function Home({ navigation }) {
               <Text
                 style={{
                   color: "lightgrey",
-                  fontFamily: "VarelaRound-Regular"
+                  ...fontVarelaRound
                 }}
               >
                 {
@@ -152,7 +170,9 @@ export default function Home({ navigation }) {
                 style={{ width: 64, height: 64 }}
                 source={require("../assets/sunrise-icon.png")}
               />
-              <Text style={styles.timeframeTemperatures}>
+              <Text
+                style={{ ...styles.timeframeTemperatures, ...fontVarelaRound }}
+              >
                 {
                   weatherData.forecast[Object.keys(weatherData.forecast)[0]]
                     .avgtemp
@@ -176,7 +196,7 @@ export default function Home({ navigation }) {
               <Text
                 style={{
                   color: "lightgrey",
-                  fontFamily: "VarelaRound-Regular"
+                  ...fontVarelaRound
                 }}
               >
                 {
@@ -188,7 +208,9 @@ export default function Home({ navigation }) {
                 style={{ width: 64, height: 64 }}
                 source={require("../assets/sunset-icon.png")}
               />
-              <Text style={styles.timeframeTemperatures}>
+              <Text
+                style={{ ...styles.timeframeTemperatures, ...fontVarelaRound }}
+              >
                 {
                   weatherData.forecast[Object.keys(weatherData.forecast)[0]]
                     .maxtemp
@@ -216,7 +238,7 @@ export default function Home({ navigation }) {
               <Text
                 style={{
                   color: "lightgrey",
-                  fontFamily: "VarelaRound-Regular"
+                  ...fontVarelaRound
                 }}
               >
                 {
@@ -228,7 +250,9 @@ export default function Home({ navigation }) {
                 style={{ width: 64, height: 64 }}
                 source={require("../assets/moonrise-icon.png")}
               />
-              <Text style={styles.timeframeTemperatures}>
+              <Text
+                style={{ ...styles.timeframeTemperatures, ...fontVarelaRound }}
+              >
                 {
                   weatherData.forecast[Object.keys(weatherData.forecast)[0]]
                     .mintemp
@@ -240,31 +264,59 @@ export default function Home({ navigation }) {
           </View>
 
           <View style={styles.additionalInfo}>
-            <Text style={styles.additionalInfoHeader}>Additional Info</Text>
+            <Text
+              style={{ ...styles.additionalInfoHeader, ...fontVarelaRound }}
+            >
+              Additional Info
+            </Text>
             <View style={styles.additionalInfoContent}>
               <View style={styles.additionalInfoText}>
-                <Text style={styles.additionalInfoName}>Wind</Text>
-                <Text style={styles.additionalInfoStats}>
+                <Text
+                  style={{ ...styles.additionalInfoName, ...fontVarelaRound }}
+                >
+                  Wind
+                </Text>
+                <Text
+                  style={{ ...styles.additionalInfoStats, ...fontVarelaRound }}
+                >
                   {weatherData.current.wind_speed} m/h
                 </Text>
               </View>
               <View style={styles.additionalInfoText}>
-                <Text style={styles.additionalInfoName}>Humidity </Text>
-                <Text style={styles.additionalInfoStats}>
+                <Text
+                  style={{ ...styles.additionalInfoName, ...fontVarelaRound }}
+                >
+                  Humidity{" "}
+                </Text>
+                <Text
+                  style={{ ...styles.additionalInfoStats, ...fontVarelaRound }}
+                >
                   {weatherData.current.humidity} %
                 </Text>
               </View>
             </View>
             <View style={styles.additionalInfoContent}>
               <View style={styles.additionalInfoText}>
-                <Text style={styles.additionalInfoName}>Visibility </Text>
-                <Text style={styles.additionalInfoStats}>
+                <Text
+                  style={{ ...styles.additionalInfoName, ...fontVarelaRound }}
+                >
+                  Visibility{" "}
+                </Text>
+                <Text
+                  style={{ ...styles.additionalInfoStats, ...fontVarelaRound }}
+                >
                   {weatherData.current.visibility} km
                 </Text>
               </View>
               <View style={styles.additionalInfoText}>
-                <Text style={styles.additionalInfoName}>UV</Text>
-                <Text style={styles.additionalInfoStats}>
+                <Text
+                  style={{ ...styles.additionalInfoName, ...fontVarelaRound }}
+                >
+                  UV
+                </Text>
+                <Text
+                  style={{ ...styles.additionalInfoStats, ...fontVarelaRound }}
+                >
                   {weatherData.current.uv_index}
                 </Text>
               </View>
@@ -288,7 +340,7 @@ export default function Home({ navigation }) {
                 fontSize: 20,
                 color: "black",
                 textAlign: "center",
-                fontFamily: "VarelaRound-Regular"
+                ...fontVarelaRound
               }}
             >
               V I E W &nbsp;F O R E C A S T
@@ -319,11 +371,8 @@ const styles = StyleSheet.create({
     width: 350,
     alignSelf: "center"
   },
-  weatherDetailText: {
-    fontFamily: "VarelaRound-Regular"
-  },
+  weatherDetailText: {},
   title: {
-    fontFamily: "VarelaRound-Regular",
     fontSize: 17,
     color: "purple"
   },
@@ -333,23 +382,19 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
   weatherTemperature: {
-    fontFamily: "VarelaRound-Regular",
     fontSize: 50
   },
   weatherPlace: {
-    fontFamily: "VarelaRound-Regular",
     color: "grey"
   },
   weatherDescription: {
-    fontSize: 20,
-    fontFamily: "VarelaRound-Regular"
+    fontSize: 20
     // width: "50%"
   },
   additionalInfo: {
     marginTop: 70
   },
   additionalInfoHeader: {
-    fontFamily: "VarelaRound-Regular",
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 20
@@ -360,17 +405,14 @@ const styles = StyleSheet.create({
   },
   additionalInfoText: {
     width: "50%",
-    fontFamily: "VarelaRound-Regular",
     flexDirection: "row"
   },
   additionalInfoStats: {
     width: "50%",
-    fontFamily: "VarelaRound-Regular",
     color: "grey"
   },
   additionalInfoName: {
-    width: "50%",
-    fontFamily: "VarelaRound-Regular"
+    width: "50%"
   },
   cardsContainer: {
     alignSelf: "center",
@@ -395,7 +437,6 @@ const styles = StyleSheet.create({
     padding: 15
   },
   timeframeTemperatures: {
-    color: "grey",
-    fontFamily: "ValeraRound-Regular"
+    color: "grey"
   }
 });
