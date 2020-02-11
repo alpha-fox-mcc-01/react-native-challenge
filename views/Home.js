@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, Text, Image, View, FlatList } from 'react-native';
 import useFetcher from '../useFetcher'
 import Constants from 'expo-constants'
+import SearchBar from './components/SearchBar'
 
 export default function HomePage({ navigation }) {
   const { characters, loading, error} = useFetcher('/character')
+  const [result, setResult] = useState([])
+  const [list, setList] = useState([])
 
   if (error) return <Text>Error</Text>
+  
+  const searchChar = (keyword) => {
+    const searchResult = characters.filter( character => {
+      return character.name.startsWith(`${keyword}`) 
+    })
+    searchResult.length > 0 && setResult(searchResult)
+  }
+
+  useEffect(() => {
+    if (result.length > 0) {
+      setList(result)
+    } else {
+      setList(characters)
+    }
+  }, [result])
+
 
   return (
     <View style={styles.container}>
     <Text style={styles.header}>The Rick and Morty Encyclopedia</Text>
-    <FlatList data={characters} renderItem={({item}) => (
+    <View>
+      <SearchBar searchChar={searchChar}></SearchBar>
+    </View>
+    <FlatList data={list} renderItem={({item}) => (
       <TouchableOpacity onPress={ () => navigation.navigate('Details', 
         item
       )}>
