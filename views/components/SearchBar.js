@@ -10,6 +10,6 @@ export default function SearchBar(props) {
         <TextInput 
         style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, borderRadius: 6 }}
         onChangeText={ text => onChangeText(text)} value={value}
-         />
+        />
     )
 }
