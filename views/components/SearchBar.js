@@ -8,7 +8,7 @@ export default function SearchBar(props) {
 
     return (
         <TextInput 
-        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, borderRadius: 6 }}
+        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, borderRadius: 6, color: 'white' }}
         onChangeText={ text => onChangeText(text)} value={value}
         />
     )
