@@ -14,10 +14,11 @@ import {
 import Constants from "expo-constants";
 import * as Font from "expo-font";
 import useFetcher from "../hooks/useFetcher";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function Home({ navigation }) {
   const [inputCity, setInputCity] = useState("");
-  const { weatherData, getCurrentWeather } = useFetcher();
+  const { weatherData, getCurrentWeather, error, loading } = useFetcher();
   const [fontVarelaRound, setFontVarelaRound] = useState({
     fontFamily: "sans-serif"
   });
@@ -96,7 +97,38 @@ export default function Home({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
-      {weatherData.hasOwnProperty("request") && (
+      {loading && (
+        <Spinner
+          visible={true}
+          // textContent={"Loading..."}
+          textStyle={{ color: "white", fontFamily: "VarelaRound-Regular" }}
+        />
+      )}
+      {error && (
+        <Text
+          style={{
+            textAlign: "center",
+            ...fontVarelaRound,
+            marginTop: 30
+            // fontSize:
+          }}
+        >
+          Sorry, unable to find a city with that name.
+        </Text>
+      )}
+      {!weatherData.hasOwnProperty("request") && (
+        <Image
+          source={require("../assets/web-logo.png")}
+          style={{
+            width: 200,
+            height: 200,
+            alignSelf: "center",
+            opacity: 0.15,
+            marginTop: 140
+          }}
+        />
+      )}
+      {!loading && !error && weatherData.hasOwnProperty("request") && (
         <View style={styles.weatherDetailContainer}>
           <View style={styles.mainInfo}>
             <Image

@@ -3,8 +3,11 @@ import axios from "axios";
 
 export default function useFetcher() {
   const [weatherData, setWeatherData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const getCurrentWeather = keyword => {
+    setLoading(true);
     axios({
       method: "GET",
       url:
@@ -12,10 +15,17 @@ export default function useFetcher() {
         keyword
     })
       .then(({ data }) => {
-        setWeatherData(data);
+        if (data.error) {
+          setLoading(false);
+          setError(data.error);
+        } else {
+          setLoading(false);
+          setError(false);
+          setWeatherData(data);
+        }
       })
-      .catch(console.log);
+      .catch(setError);
   };
 
-  return { weatherData, getCurrentWeather };
+  return { weatherData, getCurrentWeather, loading, error };
 }
