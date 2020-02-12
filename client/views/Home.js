@@ -18,7 +18,6 @@ import useFetcher from "../hooks/useFetcher";
 export default function Home({ navigation }) {
   const [inputCity, setInputCity] = useState("");
   const { weatherData, getCurrentWeather } = useFetcher();
-  const [fontLoaded, setFontLoaded] = useState(false);
   const [fontVarelaRound, setFontVarelaRound] = useState({
     fontFamily: "sans-serif"
   });
@@ -38,10 +37,9 @@ export default function Home({ navigation }) {
   };
 
   return (
-    <>
+    <View style={{ width: "100%", height: "100%", backgroundColor: "white" }}>
       <View style={styles.header}>
         <Text style={{ ...styles.title, ...fontVarelaRound }}>
-          {/* W E A T H E R &nbsp;S T A S T I S T I C S */}
           Weather Statistics
         </Text>
       </View>
@@ -60,7 +58,7 @@ export default function Home({ navigation }) {
         <TextInput
           style={{
             width: "70%",
-            height: 30,
+            height: 27,
             borderColor: "gray",
             borderWidth: 1,
             borderRadius: 10,
@@ -81,13 +79,13 @@ export default function Home({ navigation }) {
             borderWidth: 1,
             borderRadius: 10,
             marginLeft: 5,
-            height: 31
+            height: 27
             // width: 330
           }}
         >
           <Text
             style={{
-              marginTop: 3,
+              // marginTop: 3,
               fontSize: 15,
               color: "black",
               textAlign: "center",
@@ -323,7 +321,7 @@ export default function Home({ navigation }) {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.push("Details", { weatherData })}
+            onPress={() => navigation.push("Forecast", { weatherData })}
             style={{
               width: "100%",
               // backgroundColor: "lightgrey",
@@ -348,7 +346,7 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
         </View>
       )}
-    </>
+    </View>
   );
 }
 
@@ -374,11 +372,12 @@ const styles = StyleSheet.create({
   weatherDetailText: {},
   title: {
     fontSize: 17,
-    color: "purple"
+    color: "blue",
+    opacity: 0.6
   },
   mainInfo: {
     alignItems: "center",
-    marginTop: 8,
+    // marginTop:,
     marginBottom: 8
   },
   weatherTemperature: {

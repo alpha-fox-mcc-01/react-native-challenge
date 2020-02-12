@@ -53,7 +53,7 @@ export default function App() {
           // }}
           options={{ headerTitle: props => <HeaderTitle {...props} /> }}
         />
-        <Stack.Screen name="Details" component={Detail} />
+        <Stack.Screen name="Forecast" component={Detail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
