@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 const MovieCard = props => {
-  const { poster, title, rating } = props.movie;
+  const { poster, rating } = props.movie;
   return (
     <View style={{ width: '50%' }}>
       <TouchableOpacity
@@ -13,7 +13,6 @@ const MovieCard = props => {
           style={{ width: '100%', height: 300 }}
         />
       </TouchableOpacity>
-      {/* <Text style={styles.textTitle}>{title}</Text> */}
       <Text style={styles.textRating}>{rating}</Text>
     </View>
   );
